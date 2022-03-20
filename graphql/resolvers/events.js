@@ -13,13 +13,16 @@ module.exports = {
       throw err;
     };
   },
-  createEvent: async (args) => {
+  createEvent: async (args, req) => {
+    if(!req.isAuth) {
+      throw new Error('Unauthenticated!');
+    }
     const event = new Event({
       title: args.eventInput.title,
       description: args.eventInput.description,
       price: +args.eventInput.price,
       date: new Date(args.eventInput.date),
-      creator: '622f3b500435805de1be46fc',
+      creator: req.UserId,
     });
     let createdEvent;
 
@@ -27,7 +30,7 @@ module.exports = {
       const result = await event.save() // This is a function on the mongoose model.
       createdEvent = transformEvent(result);
 
-      const creator = await User.findById('622f3b500435805de1be46fc');
+      const creator = await User.findById(req.UserId);
       if (!creator) {
         throw new Error('User not found.');
       }
