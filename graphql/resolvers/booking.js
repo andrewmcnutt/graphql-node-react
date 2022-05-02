@@ -3,7 +3,7 @@ const Booking = require("../../models/booking");
 const { transformBooking } = require("./merge");
 
 module.exports = {
-  bookings: async (arg, req) => {
+  bookings: async (args, req) => {
     if (!req.isAuth) {
       throw new Error("Unauthenticated!");
     }
@@ -16,7 +16,7 @@ module.exports = {
       throw err;
     }
   },
-  bookEvent: async (arg, req) => {
+  bookEvent: async (args, req) => {
     if (!req.isAuth) {
       throw new Error("Unauthenticated!");
     }
@@ -29,7 +29,7 @@ module.exports = {
 
     return transformBooking(result);
   },
-  cancelBooking: async (arg, req) => {
+  cancelBooking: async (args, req) => {
     if (!req.isAuth) {
       throw new Error("Unauthenticated!");
     }
